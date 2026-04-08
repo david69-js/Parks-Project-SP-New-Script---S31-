@@ -147,27 +147,27 @@ function useExtensionData() {
 
   const onSelectGwpVariant = async () => {
     const selection = await resourcePicker({
-      type: "product",
+      type: "variant",
       action: "select",
       multiple: false,
-      selectionIds: gwpVariant?.product?.id ? [{id: gwpVariant.product.id}] : [],
-      filter: {variants: true, archived: false},
+      selectionIds: gwpVariant?.id ? [{ id: gwpVariant.id }] : [],
     });
 
     if (selection && selection.length > 0) {
-      const product = selection[0];
-      const variant = product.variants?.[0];
-      if (variant) {
-        setGwpVariant({
-          id: variant.id,
-          title: variant.title,
-          sku: variant.sku ?? null,
-          image: variant.image ?? product.images?.[0] ?? null,
-          product: {id: product.id, title: product.title},
-        });
-      }
-    }
-  };
+      const variant = selection[0];
+
+      setGwpVariant({
+        id: variant.id,
+        title: variant.title,
+        sku: variant.sku ?? null,
+        image: variant.image ?? variant.product?.images?.[0] ?? null,
+        product: {
+          id: variant.product?.id,
+          title: variant.product?.title,
+      },
+    });
+  }
+};
 
   const onRemoveGwpVariant = () => setGwpVariant(null);
 
