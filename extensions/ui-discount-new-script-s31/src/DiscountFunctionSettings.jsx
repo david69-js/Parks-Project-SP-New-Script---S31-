@@ -15,21 +15,26 @@ function GwpVariantSection({variant, onSelect, onRemove}) {
       {variant ? (
         <s-stack direction="inline" alignItems="center" justifyContent="space-between">
           <s-stack direction="inline" alignItems="center" gap="tight">
-            {variant.image?.url ? (
-              <s-thumbnail
+
+             {variant.image ?(
+            <s-grid gridTemplateColumns="80px 1fr" gap="base" alignItems="center">
+              <s-image
                 src={variant.image.url}
-                alt={variant.displayName ?? variant.title}
-                size="small"
+                alt="Indoor plant"
+                aspectRatio="1/1"
+                objectFit="cover"
+                borderRadius="base"
+                inlineSize="fill"
               />
+            </s-grid>
             ) : null}
             <s-stack gap="none">
               <s-text fontWeight="bold">{variant.product?.title ?? variant.title}</s-text>
-              <s-text tone="subdued" size="small">{variant.title}</s-text>
-              {variant.sku ? (
-                <s-text tone="subdued" size="small">SKU: {variant.sku}</s-text>
-              ) : null}
             </s-stack>
           </s-stack>
+            <s-stack gap="none">
+              <s-text tone="subdued" size="small">{variant.title}</s-text>
+            </s-stack>
           <s-button variant="tertiary" onClick={onRemove}>
             <s-icon type="x-circle" />
           </s-button>
