@@ -1,15 +1,27 @@
-query CartInput {
+query Input {
   cart {
+    cost {
+      subtotalAmount {
+        amount
+      }
+    }
     lines {
       id
+      quantity
       cost {
         subtotalAmount {
           amount
         }
       }
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+        }
+      }
     }
   }
- discount {
+  discount {
     discountClasses
     metafield(namespace: "$app", key: "gwp-s31") {
       jsonValue

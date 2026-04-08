@@ -6,6 +6,7 @@ description = "t:description"
 handle = "ui-discount-new-script-s31"
 uid = "c92233e0-3e42-d057-7c9e-e096c0942836362204e4"
 type = "ui_extension"
+
 # Only 1 target can be specified for each Admin block extension
 [[extensions.targeting]]
 module = "./src/DiscountFunctionSettings.jsx"
