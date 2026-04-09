@@ -151,19 +151,19 @@ function useExtensionData() {
       action: "select",
       multiple: false,
       selectionIds: gwpVariant?.id ? [{ id: gwpVariant.id }] : [],
-    });
+  });
 
-    if (selection && selection.length > 0) {
-      const variant = selection[0];
+  if (selection && selection.length > 0) {
+    const variant = selection[0];
 
-      setGwpVariant({
-        id: variant.id,
-        title: variant.title,
-        sku: variant.sku ?? null,
-        image: variant.image ?? variant.product?.images?.[0] ?? null,
-        product: {
-          id: variant.product?.id,
-          title: variant.product?.title,
+    setGwpVariant({
+      id: variant.id,
+      title: variant.title,
+      sku: variant.sku ?? null,
+      image: variant.image ?? variant.product?.images?.[0] ?? null,
+      product: {
+        id: variant.product?.id,
+        title: variant.product?.title,
       },
     });
   }
