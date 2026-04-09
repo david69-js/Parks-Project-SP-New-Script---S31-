@@ -63,7 +63,7 @@ export function cartLinesDiscountsGenerateRun(
     // Threshold not met
     return { operations: [] };
   }
-
+  
   // 3. Threshold met & freebie in cart → apply a fixed discount = 1 unit price
 
   const quantity = freebieLine.quantity;
