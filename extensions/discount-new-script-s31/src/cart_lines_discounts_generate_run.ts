@@ -16,26 +16,22 @@ export function cartLinesDiscountsGenerateRun(
     return { operations: [] };
   }
 
-  // Get config from metafield JSON
   const config = discount.metafield?.jsonValue as
     | { gwpThreshold?: number; gwpVariantId?: string }
     | undefined;
 
   if (!config || !config.gwpThreshold || !config.gwpVariantId) {
-    // No configuration → no discount
     return { operations: [] };
   }
 
   const FREEBIE_VARIANT_ID = config.gwpVariantId;
   const CART_TOTAL_FOR_DISCOUNT_APPLIED = config.gwpThreshold;
 
-  // Only run for USD, as in the original Script
   const cartCurrency = cart.cost.subtotalAmount.currencyCode;
   if (cartCurrency !== 'USD') {
     return { operations: [] };
   }
 
-  // Ensure this function has a product discount class
   const hasProductDiscountClass = discount.discountClasses.includes(
     DiscountClass.Product,
   );
@@ -43,35 +39,28 @@ export function cartLinesDiscountsGenerateRun(
     return { operations: [] };
   }
 
-  // 1. Find ONE freebie line (if present) – first matching line only
   const freebieLine = cart.lines.find((line) => {
     const merch = line.merchandise;
     return merch.__typename === 'ProductVariant' && merch.id === FREEBIE_VARIANT_ID;
   });
 
   if (!freebieLine) {
-    // Freebie is not in the cart
     return { operations: [] };
   }
 
-  // 2. Compute cart subtotal minus the entire freebie line cost
   const cartSubtotal = cart.cost.subtotalAmount.amount;
-  const freebieLineSubtotal = freebieLine.cost.subtotalAmount.amount;
-  const subtotalMinusFreebie = cartSubtotal - freebieLineSubtotal;
 
-  if (subtotalMinusFreebie < CART_TOTAL_FOR_DISCOUNT_APPLIED) {
-    // Threshold not met
+  if (cartSubtotal < CART_TOTAL_FOR_DISCOUNT_APPLIED) {
     return { operations: [] };
   }
-  
-  // 3. Threshold met & freebie in cart → apply a fixed discount = 1 unit price
+
 
   const quantity = freebieLine.quantity;
   if (quantity <= 0) {
     return { operations: [] };
   }
 
-  // unit price in cart currency
+  const freebieLineSubtotal = freebieLine.cost.subtotalAmount.amount;
   const unitPrice = freebieLineSubtotal / quantity;
 
   const operations: CartLinesDiscountsGenerateRunResult['operations'] = [];
@@ -85,17 +74,14 @@ export function cartLinesDiscountsGenerateRun(
             {
               cartLine: {
                 id: freebieLine.id,
-                quantity:1
+                quantity:1 
               },
             },
           ],
           value: {
             fixedAmount: {
-              amount: unitPrice,
-              // Depending on your generated types, there may be an
-              // `appliesToEachItem` flag. If present, set it to false
-              // so the fixed amount applies to the whole line, not per unit.
-              // appliesToEachItem: false,
+              amount: unitPrice, 
+              
             },
           },
         },
