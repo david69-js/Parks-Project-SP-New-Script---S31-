@@ -4,10 +4,4 @@ query DeliveryInput {
       id
     }
   }
- discount {
-    discountClasses
-    metafield(namespace: "$app", key: "gwp-s31") {
-      jsonValue
-    }
-  }
 }
