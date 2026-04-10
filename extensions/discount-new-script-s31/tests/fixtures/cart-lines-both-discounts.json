@@ -4,61 +4,60 @@
     "target": "cart.lines.discounts.generate.run",
     "input": {
       "cart": {
+        "cost": {
+          "subtotalAmount": {
+            "amount": "100.0",
+            "currencyCode": "USD"
+          }
+        },
         "lines": [
           {
             "id": "gid://shopify/CartLine/0",
+            "quantity": 1,
             "cost": {
               "subtotalAmount": {
-                "amount": "6.0"
+                "amount": "100.0"
               }
+            },
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/freebie"
             }
           }
         ]
       },
       "discount": {
-        "discountClasses": ["PRODUCT", "ORDER", "SHIPPING"]
+        "discountClasses": [
+          "PRODUCT",
+          "ORDER",
+          "SHIPPING"
+        ],
+        "metafield": {
+          "jsonValue": {
+            "gwpThreshold": 50,
+            "gwpVariantId": "gid://shopify/ProductVariant/freebie"
+          }
+        }
       }
     },
-    "inputBytes": 126,
     "output": {
       "operations": [
-        {
-          "orderDiscountsAdd": {
-            "candidates": [
-              {
-                "message": "10% OFF ORDER",
-                "targets": [
-                  {
-                    "orderSubtotal": {
-                      "excludedCartLineIds": []
-                    }
-                  }
-                ],
-                "value": {
-                  "percentage": {
-                    "value": 10.0
-                  }
-                }
-              }
-            ],
-            "selectionStrategy": "FIRST"
-          }
-        },
         {
           "productDiscountsAdd": {
             "candidates": [
               {
-                "message": "20% OFF PRODUCT",
+                "message": "FREE Gift with Purchase",
                 "targets": [
                   {
                     "cartLine": {
-                      "id": "gid://shopify/CartLine/0"
+                      "id": "gid://shopify/CartLine/0",
+                      "quantity": 1
                     }
                   }
                 ],
                 "value": {
-                  "percentage": {
-                    "value": 20.0
+                  "fixedAmount": {
+                    "amount": 100.0
                   }
                 }
               }

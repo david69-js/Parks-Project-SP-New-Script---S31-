@@ -5,9 +5,6 @@
     "input": {
       "cart": {
         "deliveryGroups": []
-      },
-      "discount": {
-        "discountClasses": ["SHIPPING"]
       }
     },
     "output": {

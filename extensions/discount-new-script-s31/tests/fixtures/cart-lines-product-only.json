@@ -4,19 +4,38 @@
     "target": "cart.lines.discounts.generate.run",
     "input": {
       "cart": {
+        "cost": {
+          "subtotalAmount": {
+            "amount": "100.0",
+            "currencyCode": "USD"
+          }
+        },
         "lines": [
           {
             "id": "gid://shopify/CartLine/0",
+            "quantity": 1,
             "cost": {
               "subtotalAmount": {
                 "amount": "100.0"
               }
+            },
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/freebie"
             }
           }
         ]
       },
       "discount": {
-        "discountClasses": ["PRODUCT"]
+        "discountClasses": [
+          "PRODUCT"
+        ],
+        "metafield": {
+          "jsonValue": {
+            "gwpThreshold": 50,
+            "gwpVariantId": "gid://shopify/ProductVariant/freebie"
+          }
+        }
       }
     },
     "output": {
@@ -25,17 +44,18 @@
           "productDiscountsAdd": {
             "candidates": [
               {
-                "message": "20% OFF PRODUCT",
+                "message": "FREE Gift with Purchase",
                 "targets": [
                   {
                     "cartLine": {
-                      "id": "gid://shopify/CartLine/0"
+                      "id": "gid://shopify/CartLine/0",
+                      "quantity": 1
                     }
                   }
                 ],
                 "value": {
-                  "percentage": {
-                    "value": 20.0
+                  "fixedAmount": {
+                    "amount": 100.0
                   }
                 }
               }

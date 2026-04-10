@@ -4,19 +4,36 @@
     "target": "cart.lines.discounts.generate.run",
     "input": {
       "cart": {
+        "cost": {
+          "subtotalAmount": {
+            "amount": "100.0",
+            "currencyCode": "USD"
+          }
+        },
         "lines": [
           {
             "id": "gid://shopify/CartLine/0",
+            "quantity": 1,
             "cost": {
               "subtotalAmount": {
                 "amount": "100.0"
               }
+            },
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/freebie"
             }
           }
         ]
       },
       "discount": {
-        "discountClasses": []
+        "discountClasses": [],
+        "metafield": {
+          "jsonValue": {
+            "gwpThreshold": 50,
+            "gwpVariantId": "gid://shopify/ProductVariant/freebie"
+          }
+        }
       }
     },
     "output": {
