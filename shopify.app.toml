@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "6ae40981d69f95a84a1826f6782600b9"
-name = "New-Script-s31"
+name = "New-Script-s31-GWP"
 application_url = "https://shopify.dev/apps/default-app-home"
 embedded = true
 
@@ -17,3 +17,11 @@ scopes = "read_customers, write_customers, read_discounts, write_discounts, read
 
 [auth]
 redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+
+
+[discount.metafields.app.gwp-s31]
+type = "json"
+name = "GWP configuration"
+description = "Threshold & gift variant config for the GWP discount function."
+access.admin = "merchant_read_write"
+access.storefront = "none"
