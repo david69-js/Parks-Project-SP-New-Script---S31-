@@ -62,6 +62,9 @@ function App() {
     gwpVariant,
     onSelectGwpVariant,
     onRemoveGwpVariant,
+    gwpMessage,
+    onGwpMessageChange,
+    gwpEnabled,
   } = useExtensionData();
 
   if (loading) {
@@ -87,8 +90,16 @@ function App() {
               value={gwpVariant?.id ?? ""}
               defaultValue=""
             />
+            
           </s-box>
 
+          <s-text-field
+            label="Message"
+            name="gwpMessage"
+            defaultValue={gwpMessage ?? ""}
+            onChange={event => onGwpMessageChange(event.currentTarget.value)}
+          />
+   
           <s-number-field
             label="Cart Threshold (minimum subtotal)"
             name="gwpThreshold"
@@ -128,6 +139,8 @@ function useExtensionData() {
   const [loading, setLoading] = useState(false);
   const [gwpThreshold, setGwpThreshold] = useState(metafieldConfig.gwpThreshold);
   const [gwpVariant, setGwpVariant] = useState(null);
+  const [gwpEnabled, setGwpEnabled] = useState(metafieldConfig.gwpEnabled);
+  const [gwpMessage, setGwpMessage] = useState(metafieldConfig.gwpMessage);
 
   // Fetch existing GWP variant on mount
   useEffect(() => {
@@ -143,6 +156,14 @@ function useExtensionData() {
 
   const onGwpThresholdChange = (value) => {
     setGwpThreshold(Number(value));
+  };
+
+  const onGwpEnabledChange = (value) => {
+    setGwpEnabled(value);
+  };
+
+  const onGwpMessageChange = (value) => {
+    setGwpMessage(value);
   };
 
   const onSelectGwpVariant = async () => {
@@ -179,6 +200,8 @@ function useExtensionData() {
       value: JSON.stringify({
         gwpThreshold,
         gwpVariantId: gwpVariant?.id ?? null,
+        gwpEnabled,
+        gwpMessage
       }),
       valueType: "json",
     });
@@ -187,6 +210,8 @@ function useExtensionData() {
   const resetForm = () => {
     setGwpThreshold(metafieldConfig.gwpThreshold);
     setGwpVariant(null);
+    setGwpEnabled(metafieldConfig.gwpEnabled);
+    setGwpMessage(metafieldConfig.gwpMessage);
   };
 
   return {
@@ -197,8 +222,12 @@ function useExtensionData() {
     gwpThreshold,
     onGwpThresholdChange,
     gwpVariant,
+    gwpEnabled,
+    gwpMessage,
     onSelectGwpVariant,
     onRemoveGwpVariant,
+    onGwpEnabledChange,
+    onGwpMessageChange,
   };
 }
 
@@ -210,11 +239,15 @@ function parseMetafield(value) {
     return {
       gwpThreshold: Number(parsed.gwpThreshold ?? 0),
       gwpVariantId: parsed.gwpVariantId ?? null,
+      gwpEnabled: parsed.gwpEnabled === true || String(parsed.gwpEnabled) === "true",
+      gwpMessage: parsed.gwpMessage ?? "Free Gift with Purchase",
     };
   } catch {
     return {
       gwpThreshold: 0,
       gwpVariantId: null,
+      gwpEnabled: false,
+      gwpMessage: "Free Gift with Purchase",
     };
   }
 }
